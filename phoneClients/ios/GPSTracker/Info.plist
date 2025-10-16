@@ -4,11 +4,11 @@
 <dict>
     <!-- App Metadata -->
     <key>CFBundleIdentifier</key>
-    <string>com.websmithing.gpstracker2</string>
+    <string>com.waliot.tracker</string>
     <key>CFBundleName</key>
-    <string>GPSTracker</string>
+    <string>WALIOT.Tracker</string>
     <key>CFBundleDisplayName</key>
-    <string>GPSTracker</string>
+    <string>WALIOT.Tracker</string>
     <key>CFBundleVersion</key>
     <string>2.0</string>
     <key>CFBundleShortVersionString</key>
