@@ -18,7 +18,7 @@ fun AppRouter(
         startDestination = AppDestination.Splash,
         modifier = modifier
     ) {
-        composable<AppDestination.Splash> { SplashPage() }
+        composable<AppDestination.Splash> { SplashPage(navController = navController) }
         composable<AppDestination.Home> { HomePage() }
     }
 }
