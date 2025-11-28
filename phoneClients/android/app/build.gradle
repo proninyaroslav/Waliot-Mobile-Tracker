@@ -8,11 +8,11 @@ plugins {
 
 android {
     namespace "com.websmithing.gpstracker2"
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.waliot.tracker"
-        minSdk 21
+        minSdk 23
         targetSdk 35
         versionCode 4
         versionName "1.0.0"
@@ -52,21 +52,21 @@ android {
 
 dependencies {
     // AndroidX Core and Kotlin extensions
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.17.0'
 
     // AndroidX UI Components
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'com.google.android.material:material:1.13.0'
 
     // Google Play Services Location
-    implementation 'com.google.android.gms:play-services-location:21.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
 
     // Networking (Retrofit, OkHttp, Gson Converter)
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0' // Optional
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.3.2' // Optional
 
     // Kotlin Standard Library
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -76,12 +76,12 @@ dependencies {
     // implementation "androidx.work:work-runtime-ktx:2.9.0"
 
     // ViewModel KTX for MVVM
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
-    implementation "androidx.activity:activity-ktx:1.8.2"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0"
+    implementation "androidx.activity:activity-ktx:1.12.0"
 
     // Hilt for Dependency Injection
-    implementation "com.google.dagger:hilt-android:2.50"
-    kapt "com.google.dagger:hilt-compiler:2.50"
+    implementation "com.google.dagger:hilt-android:2.57.2"
+    kapt "com.google.dagger:hilt-compiler:2.57.2"
     // Hilt integration for WorkManager (REMOVED)
     // implementation "androidx.hilt:hilt-work:1.2.0"
 
@@ -90,14 +90,14 @@ dependencies {
 
     // Test Dependencies (Commented out for initial build)
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.3.1'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:6.1.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation 'org.mockito:mockito-inline:5.2.0' // Needed for mocking final classes/methods if required
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0'
-    testImplementation 'androidx.test:core-ktx:1.6.0' // Provides extensions for testing
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2'
+    testImplementation 'androidx.test:core-ktx:1.7.0' // Provides extensions for testing
     // testImplementation "androidx.work:work-testing:2.9.0" // WorkManager testing (REMOVED)
-    kaptTest 'com.google.dagger:hilt-compiler:2.50' // Needed for Hilt in unit tests
+    kaptTest 'com.google.dagger:hilt-compiler:2.57.2' // Needed for Hilt in unit tests
 
     // AndroidTest Dependencies (Commented out for initial build)
     // androidTestImplementation 'androidx.test.ext:junit:1.1.5'
