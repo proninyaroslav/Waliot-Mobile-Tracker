@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
@@ -42,6 +43,7 @@ android {
     }
     buildFeatures {
         buildConfig true
+        compose true
     }
     packagingOptions {
         resources {
@@ -51,6 +53,32 @@ android {
 }
 
 dependencies {
+    def composeBom = platform('androidx.compose:compose-bom:2025.11.01')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    // Material Design 3
+    implementation 'androidx.compose.material3:material3'
+    // or skip Material Design and build directly on top of foundational components
+    implementation 'androidx.compose.foundation:foundation'
+    // or only import the main APIs for the underlying toolkit systems,
+    // such as input and measurement/layout
+    implementation 'androidx.compose.ui:ui'
+
+    // Android Studio Preview support
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    // Add window size utils
+    implementation 'androidx.compose.material3.adaptive:adaptive'
+
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.12.0'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0'
+    // Integration with LiveData
+    implementation 'androidx.compose.runtime:runtime-livedata'
+
     // AndroidX Core and Kotlin extensions
     implementation 'androidx.core:core-ktx:1.17.0'
 
