@@ -96,6 +96,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.material:material:1.13.0'
 
+    // Splash screen
+    implementation "androidx.core:core-splashscreen:1.2.0"
+
     // MapLibre
     implementation 'org.maplibre.compose:maplibre-compose:0.12.1'
 
