@@ -3,19 +3,44 @@ package com.websmithing.gpstracker2.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+@Immutable
+data class ExtendedColors(
+    val fab: Color,
+    val onFab: Color,
+    val ok: Color,
+)
+
+val LocalExtendedColors = staticCompositionLocalOf { DarkExtendedColors }
+
+private val DarkExtendedColors = ExtendedColors(
+    fab = fabColor,
+    onFab = onFabColor,
+    ok = okColor,
+)
+
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF0080E5),
+    primary = primaryColor,
+    error = errorColor
 )
 
 @Composable
 fun WaliotTheme(
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colorScheme = DarkColorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalExtendedColors provides DarkExtendedColors) {
+        MaterialTheme(
+            colorScheme = DarkColorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+
+val MaterialTheme.extendedColors: ExtendedColors
+    @Composable
+    get() = LocalExtendedColors.current
