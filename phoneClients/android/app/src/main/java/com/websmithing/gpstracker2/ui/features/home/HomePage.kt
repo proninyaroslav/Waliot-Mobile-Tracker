@@ -1,5 +1,6 @@
 package com.websmithing.gpstracker2.ui.features.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -21,11 +22,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.websmithing.gpstracker2.R
 import com.websmithing.gpstracker2.ui.TrackingViewModel
 import com.websmithing.gpstracker2.ui.components.CustomFloatingButton
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarker
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarkerSize
+import com.websmithing.gpstracker2.ui.features.home.components.LocationPermissionFlow
 import com.websmithing.gpstracker2.ui.features.home.components.MapView
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingButton
 import com.websmithing.gpstracker2.ui.toPosition
@@ -35,10 +38,11 @@ import kotlin.time.Duration.Companion.milliseconds
 
 private const val defaultZoom = 15.0
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomePage(
+    modifier: Modifier = Modifier,
     viewModel: TrackingViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
     val cameraState = rememberCameraState()
     val latestLocation by viewModel.latestLocation.collectAsStateWithLifecycle()
@@ -51,7 +55,6 @@ fun HomePage(
     }
 
     LaunchedEffect(true) {
-        viewModel.startTracking()
         viewModel.latestLocation.collect { location ->
             val oldZoom = cameraState.position.zoom
             location?.let {
@@ -66,6 +69,8 @@ fun HomePage(
         }
     }
 
+    LocationPermissionFlow { viewModel.startTracking() }
+
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
@@ -73,6 +78,7 @@ fun HomePage(
         }
     ) { paddingValues ->
         @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
+        @SuppressLint("UnusedBoxWithConstraintsScope")
         BoxWithConstraints(
             modifier = Modifier
                 .padding(paddingValues)

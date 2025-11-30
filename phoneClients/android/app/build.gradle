@@ -102,6 +102,9 @@ dependencies {
     // MapLibre
     implementation 'org.maplibre.compose:maplibre-compose:0.12.1'
 
+    // Accompanist libraries
+    implementation 'com.google.accompanist:accompanist-permissions:0.37.3'
+
     // Google Play Services Location
     implementation 'com.google.android.gms:play-services-location:21.3.0'
 
