@@ -13,3 +13,4 @@ val surfaceContainerColor = Color(0xFF39444D)
 
 val onSurfaceColor = Color.White
 val onSurfaceVariantColor = Color(0xFFA8B2B7)
+val onPrimaryColor = Color.White

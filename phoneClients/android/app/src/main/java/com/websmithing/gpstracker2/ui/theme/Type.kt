@@ -17,32 +17,33 @@ val LabGrotesqueFontFamily = FontFamily(
 )
 
 // Set of Material typography styles to start with
+private val defaultTypography = Typography()
 val Typography = Typography(
-    displayMedium = TextStyle(
+    displayMedium = defaultTypography.displayMedium.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    displaySmall = TextStyle(
+    displaySmall = defaultTypography.displaySmall.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    headlineLarge = TextStyle(
+    headlineLarge = defaultTypography.headlineLarge.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    headlineMedium = TextStyle(
+    headlineMedium = defaultTypography.headlineMedium.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    headlineSmall = TextStyle(
+    headlineSmall = defaultTypography.headlineSmall.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    titleLarge = TextStyle(
+    titleLarge = defaultTypography.titleLarge.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    titleMedium = TextStyle(
+    titleMedium = defaultTypography.titleMedium.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    titleSmall = TextStyle(
+    titleSmall = defaultTypography.titleSmall.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
-    bodyLarge = TextStyle(
+    bodyLarge = defaultTypography.bodyLarge.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
     bodyMedium = TextStyle(
@@ -50,11 +51,10 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 18.sp
     ),
-    bodySmall = TextStyle(
+    bodySmall = defaultTypography.bodySmall.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
     labelLarge = TextStyle(
-        fontFamily = LabGrotesqueFontFamily,
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
         lineHeight = 18.sp
@@ -64,7 +64,7 @@ val Typography = Typography(
         fontSize = 12.sp,
         lineHeight = 15.sp
     ),
-    labelSmall = TextStyle(
+    labelSmall = defaultTypography.labelSmall.copy(
         fontFamily = LabGrotesqueFontFamily,
     ),
 )
