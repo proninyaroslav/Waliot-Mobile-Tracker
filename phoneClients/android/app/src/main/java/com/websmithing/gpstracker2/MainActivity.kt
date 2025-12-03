@@ -16,6 +16,19 @@ import com.websmithing.gpstracker2.util.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 
+/**
+ * Main activity for the GPS Tracker application.
+ *
+ * This activity serves as the primary user interface for the GPS tracking functionality.
+ * It handles:
+ * - User configuration (username, server URL, tracking interval)
+ * - Permission management for location tracking
+ * - Starting and stopping the tracking service
+ * - Displaying real-time location data and tracking statistics
+ * - Communicating with the backend ViewModel that manages data and services
+ *
+ * The activity is integrated with Hilt for dependency injection.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun attachBaseContext(newBase: Context) {

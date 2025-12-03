@@ -81,6 +81,7 @@ fun customOutlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
     unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
     disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+    errorContainerColor = MaterialTheme.colorScheme.surfaceContainer,
     disabledBorderColor = Color.Transparent,
     unfocusedBorderColor = Color.Transparent
 )

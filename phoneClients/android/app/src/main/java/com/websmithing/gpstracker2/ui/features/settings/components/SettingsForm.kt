@@ -66,6 +66,7 @@ fun SettingsForm(
                 value = state.userName,
                 onValueChange = { onChange(state.copy(userName = it)) },
                 isError = state.userNameError != null,
+                supportingText = { state.userNameError?.let { Text(it) } },
                 colors = customOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,6 +78,7 @@ fun SettingsForm(
                 value = state.websiteUrl,
                 onValueChange = { onChange(state.copy(websiteUrl = it)) },
                 isError = state.websiteUrlError != null,
+                supportingText = { state.websiteUrlError?.let { Text(it) } },
                 colors = customOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
