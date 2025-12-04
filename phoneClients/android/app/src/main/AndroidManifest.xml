@@ -23,11 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Splash"
         android:usesCleartextTraffic="true">
-        <!-- TODO -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Compose WALIOT"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,18 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GpsTrackerActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Declare the Foreground Service -->
+        <!-- Declare the Foreground Service -->
         <service
             android:name=".service.TrackingService"
             android:foregroundServiceType="location" />
