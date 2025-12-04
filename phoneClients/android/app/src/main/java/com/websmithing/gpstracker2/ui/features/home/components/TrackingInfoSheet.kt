@@ -29,10 +29,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.websmithing.gpstracker2.R
+import com.websmithing.gpstracker2.data.repository.UploadStatus
 import com.websmithing.gpstracker2.ui.components.DragHandle
 import com.websmithing.gpstracker2.ui.theme.WaliotTheme
 import com.websmithing.gpstracker2.ui.theme.extendedColors
@@ -49,6 +51,7 @@ fun TrackingInfoSheet(
     userName: String?,
     location: Location?,
     totalDistance: StateFlow<Float>,
+    lastUploadStatus: UploadStatus?,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -59,6 +62,7 @@ fun TrackingInfoSheet(
         userName = userName,
         location = location,
         totalDistance = totalDistanceValue,
+        lastUploadStatus = lastUploadStatus,
         modifier = modifier
     )
 }
@@ -69,6 +73,7 @@ private fun Sheet(
     userName: String?,
     location: Location?,
     totalDistance: Float,
+    lastUploadStatus: UploadStatus?,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -152,9 +157,24 @@ private fun Sheet(
 
                 item(span = { GridItemSpan(2) }) {
                     Text(
-                        if (location == null)
+                        if (location == null) {
                             context.getString(R.string.no_data_placeholder)
-                        else timeFormatter.format(location.time)
+                        } else {
+                            when (lastUploadStatus) {
+                                null, is UploadStatus.Idle -> context.getString(R.string.no_data_placeholder)
+                                is UploadStatus.Success -> context.getString(
+                                    R.string.upload_status_success,
+                                    timeFormatter.format(location.time)
+                                )
+
+                                is UploadStatus.Failure -> context.getString(
+                                    R.string.upload_status_failure,
+                                    timeFormatter.format(location.time),
+                                    lastUploadStatus.errorMessage
+                                        ?: stringResource(R.string.unknown_error)
+                                )
+                            }
+                        }
                     )
                 }
             }
@@ -306,7 +326,13 @@ private fun getSignalStrengthDescription(accuracy: Float): String {
 @Composable
 private fun TrackingInfoSheetPreview() {
     WaliotTheme {
-        Sheet(onDismissRequest = {}, userName = null, location = null, totalDistance = 0f)
+        Sheet(
+            onDismissRequest = {},
+            userName = null,
+            location = null,
+            totalDistance = 0f,
+            lastUploadStatus = null
+        )
     }
 }
 
@@ -318,7 +344,8 @@ private fun TrackingInfoSheetEmpty() {
             onDismissRequest = {},
             userName = "89181201004",
             location = Location(""),
-            totalDistance = 7000f
+            totalDistance = 7000f,
+            lastUploadStatus = null
         )
     }
 }

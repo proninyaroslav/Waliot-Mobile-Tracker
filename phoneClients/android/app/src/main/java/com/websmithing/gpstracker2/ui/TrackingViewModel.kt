@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.websmithing.gpstracker2.R
 import com.websmithing.gpstracker2.data.repository.LocationRepository
 import com.websmithing.gpstracker2.data.repository.SettingsRepository
 import com.websmithing.gpstracker2.data.repository.UploadStatus
@@ -178,7 +179,7 @@ class TrackingViewModel @Inject constructor(
                 settingsRepository.saveTrackingInterval(newInterval)
                 // If currently tracking, stop and restart the service to apply the new interval
                 if (_isTracking.value == true) {
-                    _snackbarMessage.value = "Interval updated. Restarting tracking service."
+                    _snackbarMessage.value = context.getString(R.string.interval_updated)
                     // Stop the service
                     Intent(context, TrackingService::class.java).also { intent ->
                         intent.action = TrackingService.ACTION_STOP_SERVICE

@@ -70,8 +70,8 @@
     <string name="search_satellites">Search satellites…</string>
 
     <string name="upload_status_idle">Last Update: Idle</string>
-    <string name="upload_status_success">Last Update: %1$s (Success)</string>
-    <string name="upload_status_failure">Last Update: %1$s (Failed: %2$s)</string>
+    <string name="upload_status_success">%1$s (Success)</string>
+    <string name="upload_status_failure">%1$s (Failed: %2$s)</string>
 
     <string name="signal_unknown">Unknown</string>
     <string name="signal_excellent">Excellent</string>
@@ -92,4 +92,8 @@
     <string name="close">Close</string>
     <string name="app_version_format">App version:</string>
     <string name="save">Save</string>
+    <string name="tracking_enabled">Tracking enabled</string>
+    <string name="interval_updated">Interval updated. Restarting tracking service.</string>
+    <string name="error_format">Error: %1$s</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>

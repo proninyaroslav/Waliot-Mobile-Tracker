@@ -70,8 +70,8 @@
     <string name="search_satellites">Поиск спутников…</string>
 
     <string name="upload_status_idle">Последнее обновление: ожидание</string>
-    <string name="upload_status_success">Последнее обновление: %1$s (успешно)</string>
-    <string name="upload_status_failure">Последнее обновление: %1$s (ошибка: %2$s)</string>
+    <string name="upload_status_success">%1$s (успешно)</string>
+    <string name="upload_status_failure">%1$s (ошибка: %2$s)</string>
 
     <string name="signal_unknown">Неизвестно</string>
     <string name="signal_excellent">Отлично</string>
@@ -92,4 +92,8 @@
     <string name="close">Закрыть</string>
     <string name="app_version_format">Версия приложения:</string>
     <string name="save">Сохранить</string>
+    <string name="tracking_enabled">Отслеживание включено</string>
+    <string name="interval_updated">Интервал обновлён. Перезапуск службы отслеживания.</string>
+    <string name="error_format">Ошибка: %1$s</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

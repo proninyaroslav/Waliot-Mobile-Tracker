@@ -112,11 +112,20 @@ fun SettingsPage(
         }
 
         if (isNameValid && isWebsiteValid) {
+            val userNameChanged = initialState.userName != state.userName
             val languageChanged = initialState.languageCode != state.languageCode
+            val websiteUrlChanged = initialState.websiteUrl != state.websiteUrl
+            val intervalChanged = initialState.interval != state.interval
 
-            viewModel.onUserNameChanged(state.userName.trim())
-            viewModel.onWebsiteUrlChanged(state.websiteUrl.trim())
-            viewModel.onIntervalChanged(state.interval)
+            if (userNameChanged) {
+                viewModel.onUserNameChanged(state.userName.trim())
+            }
+            if (websiteUrlChanged) {
+                viewModel.onWebsiteUrlChanged(state.websiteUrl.trim())
+            }
+            if (intervalChanged) {
+                viewModel.onIntervalChanged(state.interval)
+            }
             if (languageChanged) {
                 viewModel.onLanguageChanged(state.languageCode)
                 activity?.recreate()

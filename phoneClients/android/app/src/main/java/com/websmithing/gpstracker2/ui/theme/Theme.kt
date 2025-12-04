@@ -26,7 +26,9 @@ data class ExtendedColors(
     val appBar: Color,
     val hover: Color,
     val tertiaryText: Color,
-    val quaternaryText: Color
+    val quaternaryText: Color,
+    val okContainer: Color,
+    val warningContainer: Color
 )
 
 val LocalExtendedColors = staticCompositionLocalOf { DarkExtendedColors }
@@ -38,7 +40,9 @@ private val DarkExtendedColors = ExtendedColors(
     appBar = appBarColor,
     hover = hoverColor,
     tertiaryText = tertiaryTextColor,
-    quaternaryText = quaternaryTextColor
+    quaternaryText = quaternaryTextColor,
+    okContainer = okContainerColor,
+    warningContainer = warningContainerColor
 )
 
 private val DarkColorScheme = darkColorScheme(
