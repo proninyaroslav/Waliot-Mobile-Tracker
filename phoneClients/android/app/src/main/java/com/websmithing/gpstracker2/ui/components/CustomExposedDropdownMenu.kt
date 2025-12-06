@@ -74,7 +74,7 @@ fun CustomExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { onExpandedChange(false) },
             ) {
-                for (option in options) {
+                for (option in filteringOptions) {
                     DropdownMenuItem(
                         text = option.content,
                         onClick = {
