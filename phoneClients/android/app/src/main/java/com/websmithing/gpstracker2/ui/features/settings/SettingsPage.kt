@@ -62,16 +62,12 @@ fun SettingsPage(
     val language by viewModel.language.observeAsState()
     val interval by viewModel.trackingInterval.observeAsState()
 
-    var initialState by remember {
-        mutableStateOf(
-            SettingsFormState(
-                userName ?: "",
-                websiteUrl ?: context.getString(R.string.default_upload_website),
-                interval ?: 1,
-                language ?: "ru"
-            )
-        )
-    }
+    var initialState = SettingsFormState(
+        userName ?: "",
+        websiteUrl ?: context.getString(R.string.default_upload_website),
+        interval ?: 1,
+        language ?: "ru"
+    )
     var state by remember { mutableStateOf(initialState) }
     val canSave by remember(state, initialState) {
         derivedStateOf {
