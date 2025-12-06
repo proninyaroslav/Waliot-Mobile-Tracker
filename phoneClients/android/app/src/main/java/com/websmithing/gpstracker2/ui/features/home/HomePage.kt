@@ -220,8 +220,8 @@ fun HomePage(
                     else -> LocationMarkerState.Active
                 },
                 modifier = Modifier.offset(
-                    x = markerPosition.x - LocationMarkerSize,
-                    y = markerPosition.y + LocationMarkerSize
+                    x = markerPosition.x - LocationMarkerSize / 2,
+                    y = markerPosition.y - LocationMarkerSize / 2
                 )
             )
         }
