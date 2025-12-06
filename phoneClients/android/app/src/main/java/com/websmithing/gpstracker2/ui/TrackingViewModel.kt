@@ -163,6 +163,14 @@ class TrackingViewModel @Inject constructor(
         }
     }
 
+    fun switchTrackingState() {
+        if (isTracking.value == true) {
+            stopTracking()
+        } else {
+            startTracking()
+        }
+    }
+
     /**
      * Updates the tracking interval setting
      *

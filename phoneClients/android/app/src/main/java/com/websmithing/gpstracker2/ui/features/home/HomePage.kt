@@ -132,23 +132,24 @@ fun HomePage(
         }
     }
 
+    LaunchedEffect(isTracking) {
+        if (isTracking) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    context.getString(R.string.tracking_enabled),
+                    actionLabel = CustomSnackbarType.success.name,
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
+    }
+
     fun switchTracking() {
         if (!canRunTracking) {
             return
         }
         try {
-            if (isTracking) {
-                viewModel.stopTracking()
-            } else {
-                viewModel.startTracking()
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        context.getString(R.string.tracking_enabled),
-                        actionLabel = CustomSnackbarType.success.name,
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
+            viewModel.switchTrackingState()
         } catch (e: Exception) {
             scope.launch {
                 snackbarHostState.showSnackbar(
