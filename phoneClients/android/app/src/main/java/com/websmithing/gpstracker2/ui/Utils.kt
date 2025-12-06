@@ -80,6 +80,4 @@ inline fun <reified VM : ViewModel> activityHiltViewModel(): VM {
     return hiltViewModel(viewModelStoreOwner)
 }
 
-fun hasSpaces(str: String): Boolean {
-    return str.split(" ").size > 1
-}
+fun hasSpaces(str: String) = str.contains(' ')
