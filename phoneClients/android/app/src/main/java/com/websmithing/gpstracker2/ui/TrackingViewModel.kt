@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websmithing.gpstracker2.R
+import com.websmithing.gpstracker2.data.repository.ForegroundLocationRepository
 import com.websmithing.gpstracker2.data.repository.LocationRepository
 import com.websmithing.gpstracker2.data.repository.SettingsRepository
 import com.websmithing.gpstracker2.data.repository.UploadStatus
@@ -41,7 +42,8 @@ import javax.inject.Inject
 class TrackingViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val foregroundLocationRepository: ForegroundLocationRepository
 ) : ViewModel() {
 
     // --- LiveData for UI State ---
@@ -87,6 +89,14 @@ class TrackingViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     /**
+     * The most recent location data in foreground mode and is not related to the logic of
+     * sending tracking data over the network
+     */
+    val latestForegroundLocation: StateFlow<Location?> =
+        foregroundLocationRepository.currentLocation
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    /**
      * The total distance traveled during the current tracking session in meters
      * Exposes the repository's distance flow as a StateFlow for the UI to collect
      */
@@ -125,6 +135,11 @@ class TrackingViewModel @Inject constructor(
                 settingsRepository.setFirstTimeLoading(false) // Mark as no longer first time
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopForegroundLocation()
     }
 
     // --- Actions from UI ---
@@ -170,6 +185,10 @@ class TrackingViewModel @Inject constructor(
             startTracking()
         }
     }
+
+    fun startForegroundLocation() = foregroundLocationRepository.start()
+
+    fun stopForegroundLocation() = foregroundLocationRepository.stop()
 
     /**
      * Updates the tracking interval setting

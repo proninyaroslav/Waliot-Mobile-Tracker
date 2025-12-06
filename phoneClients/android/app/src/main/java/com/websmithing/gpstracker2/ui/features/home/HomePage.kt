@@ -15,6 +15,7 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -43,11 +44,11 @@ import com.websmithing.gpstracker2.ui.components.CustomSnackbarType
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarker
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarkerSize
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarkerState
+import com.websmithing.gpstracker2.ui.features.home.components.LocationPermissionFlow
 import com.websmithing.gpstracker2.ui.features.home.components.MapView
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingButton
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingButtonState
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingInfoSheet
-import com.websmithing.gpstracker2.ui.features.home.components.getUserLocation
 import com.websmithing.gpstracker2.ui.router.AppDestination
 import com.websmithing.gpstracker2.ui.toPosition
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ fun HomePage(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val cameraState = rememberCameraState()
-    val latestLocation = getUserLocation()
+    val latestLocation by viewModel.latestForegroundLocation.collectAsStateWithLifecycle()
     val markerPosition by remember(cameraState.position, latestLocation) {
         derivedStateOf {
             latestLocation?.let { location ->
@@ -143,6 +144,17 @@ fun HomePage(
             }
         }
     }
+
+    DisposableEffect(true) {
+        onDispose {
+            viewModel.stopForegroundLocation()
+        }
+    }
+
+    LocationPermissionFlow(
+        onAllow = { viewModel.startForegroundLocation() },
+        onDeny = { viewModel.stopForegroundLocation() }
+    )
 
     fun switchTracking() {
         if (!canRunTracking) {
