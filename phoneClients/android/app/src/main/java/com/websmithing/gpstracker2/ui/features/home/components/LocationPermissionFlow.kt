@@ -38,6 +38,29 @@ fun LocationPermissionFlow(
     onAllow: () -> Unit,
     onDeny: () -> Unit
 ) {
+    var showPreBackgroundDialog by remember { mutableStateOf(false) }
+
+    ForegroundLocation(
+        onAllow = onAllow,
+        onDeny = onDeny,
+        onShowBackgroundDialog = { showPreBackgroundDialog = true }
+    )
+
+    BackgroundLocation(
+        onAllow = onAllow,
+        onDeny = onDeny,
+        show = showPreBackgroundDialog,
+    ) {
+        showPreBackgroundDialog = false
+    }
+}
+
+@Composable
+fun ForegroundLocation(
+    onAllow: () -> Unit,
+    onDeny: () -> Unit,
+    onShowBackgroundDialog: () -> Unit,
+) {
     val context = LocalContext.current
     val isBackgroundLocationRequired = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
@@ -45,9 +68,6 @@ fun LocationPermissionFlow(
 
     var showForegroundDeniedDialog by remember { mutableStateOf(false) }
     var showForegroundRationaleDialog by remember { mutableStateOf(false) }
-
-    var showPreBackgroundDialog by remember { mutableStateOf(false) }
-    var showBackgroundDeniedDialog by remember { mutableStateOf(false) }
 
     val permissionsLauncher =
         rememberLauncherForActivityResult(
@@ -67,7 +87,7 @@ fun LocationPermissionFlow(
                     if (backgroundAlreadyGranted) {
                         onAllow()
                     } else {
-                        showPreBackgroundDialog = true
+                        onShowBackgroundDialog()
                     }
 
                 } else {
@@ -87,38 +107,12 @@ fun LocationPermissionFlow(
             }
         }
 
-    val backgroundLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { granted ->
-
-            if (granted) {
-                onAllow()
-            } else {
-                val shouldShow = shouldShowRationale(
-                    context,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-
-                onDeny()
-                showBackgroundDeniedDialog = true
-            }
-        }
-
-    //--------------------------------------------------------------------
-    //                          INITIAL REQUEST
-    //--------------------------------------------------------------------
-
     LaunchedEffect(Unit) {
         if (!permissionsRequest) {
             permissionsRequest = true
             permissionsLauncher.launch(permissions)
         }
     }
-
-    //---------------------------------------------------------
-    //                FOREGROUND DENIED / RATIONALE
-    //---------------------------------------------------------
 
     if (showForegroundRationaleDialog) {
         AlertDialog(
@@ -147,19 +141,45 @@ fun LocationPermissionFlow(
             onDismissRequest = { showForegroundDeniedDialog = false }
         )
     }
+}
 
-    //---------------------------------------------------------
-    //                BACKGROUND PERMISSION
-    //---------------------------------------------------------
+@Composable
+private fun BackgroundLocation(
+    onAllow: () -> Unit,
+    onDeny: () -> Unit,
+    show: Boolean,
+    onDismissRequest: () -> Unit,
+) {
+    val context = LocalContext.current
 
-    if (showPreBackgroundDialog) {
+    var showBackgroundDeniedDialog by remember { mutableStateOf(false) }
+
+    val backgroundLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+
+            if (granted) {
+                onAllow()
+            } else {
+                val shouldShow = shouldShowRationale(
+                    context,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+
+                onDeny()
+                showBackgroundDeniedDialog = true
+            }
+        }
+
+    if (show) {
         AlertDialog(
             onDismissRequest = {},
             title = { Text(context.getString(R.string.permission_rationale_background_location_title)) },
             text = { Text(context.getString(R.string.permission_rationale_background_location_pre_request)) },
             confirmButton = {
                 TextButton(onClick = {
-                    showPreBackgroundDialog = false
+                    onDismissRequest()
                     backgroundLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                 }) {
                     Text(context.getString(R.string.permission_button_continue))
@@ -167,7 +187,7 @@ fun LocationPermissionFlow(
             },
             dismissButton = {
                 TextButton(onClick = {
-                    showPreBackgroundDialog = false
+                    onDismissRequest()
                 }) {
                     Text(context.getString(R.string.permission_button_cancel))
                 }
