@@ -3,10 +3,10 @@ package com.websmithing.gpstracker2
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.websmithing.gpstracker2.di.SettingsRepositoryEntryPoint
 import com.websmithing.gpstracker2.ui.App
@@ -30,7 +30,7 @@ import dagger.hilt.android.EntryPointAccessors
  * The activity is integrated with Hilt for dependency injection.
  */
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun attachBaseContext(newBase: Context) {
         // 1. Get the EntryPoint accessor from the application context
         val entryPoint = EntryPointAccessors.fromApplication(

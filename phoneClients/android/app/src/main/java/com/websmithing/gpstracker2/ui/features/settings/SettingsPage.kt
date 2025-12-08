@@ -124,7 +124,6 @@ fun SettingsPage(
             }
             if (languageChanged) {
                 viewModel.onLanguageChanged(state.languageCode)
-                activity?.recreate()
             }
 
             initialState = state

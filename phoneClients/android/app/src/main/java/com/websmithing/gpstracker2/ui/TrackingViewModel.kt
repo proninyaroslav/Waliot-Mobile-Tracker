@@ -4,6 +4,8 @@ package com.websmithing.gpstracker2.ui
 import android.content.Context
 import android.content.Intent
 import android.location.Location
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -256,6 +258,9 @@ class TrackingViewModel @Inject constructor(
 
     fun onLanguageChanged(language: String) {
         if (language != _language.value) {
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(language)
+            )
             viewModelScope.launch {
                 settingsRepository.saveLanguage(language)
                 _language.value = language
