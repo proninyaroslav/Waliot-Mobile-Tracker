@@ -15,7 +15,7 @@ fun MapView(modifier: Modifier = Modifier, cameraState: CameraState) {
     MaplibreMap(
         baseStyle = BaseStyle.Uri(mapStyleUri),
         cameraState = cameraState,
-        options = MapOptions(ornamentOptions = OrnamentOptions.OnlyLogo),
+        options = MapOptions(ornamentOptions = OrnamentOptions.AllDisabled),
         modifier = modifier,
     )
 }
