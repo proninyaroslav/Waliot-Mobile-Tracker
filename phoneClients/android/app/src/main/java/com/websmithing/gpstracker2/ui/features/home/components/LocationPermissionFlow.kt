@@ -1,10 +1,7 @@
 package com.websmithing.gpstracker2.ui.features.home.components
 
 import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.AlertDialog
@@ -16,9 +13,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import com.websmithing.gpstracker2.R
+import com.websmithing.gpstracker2.ui.components.PermissionDeniedDialog
+import com.websmithing.gpstracker2.ui.isBackgroundLocationPermissionGranted
 
 private val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     arrayOf(
@@ -78,13 +77,7 @@ fun ForegroundLocation(
                     || result[Manifest.permission.ACCESS_COARSE_LOCATION] == true
             if (anyGranted) {
                 if (isBackgroundLocationRequired) {
-                    val backgroundAlreadyGranted =
-                        androidx.core.content.ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-
-                    if (backgroundAlreadyGranted) {
+                    if (isBackgroundLocationPermissionGranted(context)) {
                         onAllow()
                     } else {
                         onShowBackgroundDialog()
@@ -136,7 +129,7 @@ fun ForegroundLocation(
     }
 
     if (showForegroundDeniedDialog) {
-        DeniedDialog(
+        PermissionDeniedDialog(
             text = context.getString(R.string.permission_denied_foreground_location),
             onDismissRequest = { showForegroundDeniedDialog = false }
         )
@@ -196,44 +189,15 @@ private fun BackgroundLocation(
     }
 
     if (showBackgroundDeniedDialog) {
-        DeniedDialog(
+        PermissionDeniedDialog(
             text = context.getString(R.string.permission_denied_background_location),
             onDismissRequest = { showBackgroundDeniedDialog = false }
         )
     }
 }
 
-@Composable
-private fun DeniedDialog(
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit,
-    text: String
-) {
-    val context = LocalContext.current
-
-    AlertDialog(
-        onDismissRequest = {},
-        text = { Text(text) },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                    val intent = Intent(
-                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", context.packageName, null)
-                    )
-                    context.startActivity(intent)
-                }
-            ) {
-                Text(context.getString(R.string.permission_button_settings))
-            }
-        },
-        modifier = modifier,
-    )
-}
-
 private fun shouldShowRationale(context: android.content.Context, permission: String): Boolean {
-    return androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale(
+    return ActivityCompat.shouldShowRequestPermissionRationale(
         context.findActivity(),
         permission
     )

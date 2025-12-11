@@ -42,6 +42,7 @@ import com.websmithing.gpstracker2.ui.activityHiltViewModel
 import com.websmithing.gpstracker2.ui.components.CustomFloatingButton
 import com.websmithing.gpstracker2.ui.components.CustomSnackbar
 import com.websmithing.gpstracker2.ui.components.CustomSnackbarType
+import com.websmithing.gpstracker2.ui.components.PermissionDeniedDialog
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarker
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarkerSize
 import com.websmithing.gpstracker2.ui.features.home.components.LocationMarkerState
@@ -50,6 +51,7 @@ import com.websmithing.gpstracker2.ui.features.home.components.MapView
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingButton
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingButtonState
 import com.websmithing.gpstracker2.ui.features.home.components.TrackingInfoSheet
+import com.websmithing.gpstracker2.ui.isBackgroundLocationPermissionGranted
 import com.websmithing.gpstracker2.ui.router.AppDestination
 import com.websmithing.gpstracker2.ui.toPosition
 import kotlinx.coroutines.launch
@@ -91,6 +93,7 @@ fun HomePage(
     val snackbarMessage by viewModel.snackbarMessage.observeAsState()
 
     var showTrackingInfoSheet by remember { mutableStateOf(false) }
+    var showBackgroundDeniedDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(latestLocation) {
         val oldZoom = cameraState.position.zoom
@@ -159,6 +162,10 @@ fun HomePage(
 
     fun switchTracking() {
         if (!canRunTracking) {
+            return
+        }
+        if (!isBackgroundLocationPermissionGranted(context)) {
+            showBackgroundDeniedDialog = true
             return
         }
         try {
@@ -237,6 +244,13 @@ fun HomePage(
             location = latestLocation,
             totalDistance = viewModel.totalDistance,
             lastUploadStatus = lastUploadStatus
+        )
+    }
+
+    if (showBackgroundDeniedDialog) {
+        PermissionDeniedDialog(
+            text = context.getString(R.string.permission_denied_background_location),
+            onDismissRequest = { showBackgroundDeniedDialog = false }
         )
     }
 
